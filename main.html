@@ -68,9 +68,9 @@
     let moves = 0;
 
     const winningCombos = [
-      ['cell-1', 'cell-2', 'cell-3'], ['cell-4', 'cell-5', 'cell-6'], ['cell-7', 'cell-8', 'cell-9'],  
-      ['cell-1', 'cell-4', 'cell-7'], ['cell-2', 'cell-5', 'cell-8'], ['cell-3', 'cell-6', 'cell-9'],  
-      ['cell-1', 'cell-5', 'cell-9'], ['cell-3', 'cell-5', 'cell-7']
+      [1, 2, 3], [4, 5, 6], [7, 8, 9],  
+      [1, 4, 7], [2, 5, 8], [3, 6, 9],  
+      [1, 5, 9], [3, 5, 7]
     ];
 
     document.getElementById('submit').addEventListener('click', function () {
@@ -91,7 +91,7 @@
       for (let i = 1; i <= 9; i++) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
-        cell.id = `cell-${i}`;
+        cell.id = i;
         cell.addEventListener('click', handleMove);
         board.appendChild(cell);
       }
