@@ -67,14 +67,12 @@
     let player2 = '';
     let moves = 0;
 
-    
     const winningCombos = [
-      [1, 2, 3], [4, 5, 6], [7, 8, 9],  
-      [1, 4, 7], [2, 5, 8], [3, 6, 9],  
-      [1, 5, 9], [3, 5, 7]              
+      ['cell-1', 'cell-2', 'cell-3'], ['cell-4', 'cell-5', 'cell-6'], ['cell-7', 'cell-8', 'cell-9'],  
+      ['cell-1', 'cell-4', 'cell-7'], ['cell-2', 'cell-5', 'cell-8'], ['cell-3', 'cell-6', 'cell-9'],  
+      ['cell-1', 'cell-5', 'cell-9'], ['cell-3', 'cell-5', 'cell-7']
     ];
 
-    
     document.getElementById('submit').addEventListener('click', function () {
       player1 = document.getElementById('player-1').value || 'Player 1';
       player2 = document.getElementById('player-2').value || 'Player 2';
@@ -87,19 +85,18 @@
       createBoard();
     });
 
-    
     function createBoard() {
       const board = document.getElementById('board');
+      board.innerHTML = ''; // Clear board for fresh start
       for (let i = 1; i <= 9; i++) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
-        cell.id = i;
+        cell.id = `cell-${i}`;
         cell.addEventListener('click', handleMove);
         board.appendChild(cell);
       }
     }
 
-    
     function handleMove(event) {
       const cell = event.target;
 
@@ -113,18 +110,17 @@
         disableBoard();
       } else if (moves === 9) {
         updateMessage("It's a draw!");
+        disableBoard();
       } else {
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
         updateMessage(`${currentPlayer === 'X' ? player1 : player2}, you're up`);
       }
     }
 
-    
     function updateMessage(message) {
       document.querySelector('.message').textContent = message;
     }
 
-    
     function checkWin() {
       const cells = document.querySelectorAll('.cell');
       const cellValues = Array.from(cells).reduce((acc, cell) => {
@@ -137,7 +133,6 @@
       );
     }
 
-    
     function disableBoard() {
       document.querySelectorAll('.cell').forEach(cell => cell.removeEventListener('click', handleMove));
     }
