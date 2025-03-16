@@ -132,10 +132,10 @@
 
         board[index] = currentPlayer === player1 ? 'X' : 'O';
         cell.textContent = board[index];
+        cell.style.pointerEvents = 'none';
 
         if (checkWin()) {
           messageDiv.textContent = `${currentPlayer}, congratulations you won!`;
-          highlightWinningCells();
           gameActive = false;
           return;
         }
@@ -152,24 +152,19 @@
     });
 
     function checkWin() {
-      return winPatterns.some(pattern => {
+      return winPatterns.find(pattern => {
         const [a, b, c] = pattern;
-        return (
-          board[a] &&
-          board[a] === board[b] &&
-          board[a] === board[c]
-        );
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+          highlightWinningCells(pattern);
+          return true;
+        }
+        return false;
       });
     }
 
-    function highlightWinningCells() {
-      winPatterns.forEach(pattern => {
-        const [a, b, c] = pattern;
-        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-          document.getElementById((a + 1).toString()).classList.add('win');
-          document.getElementById((b + 1).toString()).classList.add('win');
-          document.getElementById((c + 1).toString()).classList.add('win');
-        }
+    function highlightWinningCells(pattern) {
+      pattern.forEach(index => {
+        document.getElementById((index + 1).toString()).classList.add('win');
       });
     }
 
@@ -178,7 +173,9 @@
       cells.forEach(cell => {
         cell.textContent = '';
         cell.classList.remove('win');
+        cell.style.pointerEvents = 'auto';
       });
+      gameActive = true;
     }
   </script>
 </body>
