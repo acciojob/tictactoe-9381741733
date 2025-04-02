@@ -37,7 +37,7 @@
                 document.querySelector(".input-section").classList.add("hidden");
                 document.querySelector(".game-section").classList.remove("hidden");
                 currentPlayer = player1;
-                updateMessage(`${currentPlayer}, you're up!`);
+                updateMessage(`${currentPlayer}, you're up`);
                 createBoard();
             } else {
                 alert("Please enter names for both players.");
@@ -62,30 +62,32 @@
         function handleCellClick(index) {
             if (board[index] || gameOver) return;
 
-            board[index] = currentPlayer === player1 ? "X" : "O";
+            board[index] = currentPlayer === player1 ? "x" : "o";
             document.getElementById(index + 1).innerText = board[index];
             document.getElementById(index + 1).classList.add("taken");
 
-            if (checkWinner()) {
-                updateMessage(`${currentPlayer} congratulations you won!`);
-                gameOver = true;
-                document.getElementById("restart").classList.remove("hidden");
-                return;
-            }
+            setTimeout(() => {
+                if (checkWinner()) {
+                    updateMessage(`${currentPlayer} congratulations you won!`);
+                    gameOver = true;
+                    document.getElementById("restart").classList.remove("hidden");
+                    return;
+                }
 
-            if (board.every(cell => cell !== "")) {
-                updateMessage("It's a draw!");
-                gameOver = true;
-                document.getElementById("restart").classList.remove("hidden");
-                return;
-            }
+                if (board.every(cell => cell !== "")) {
+                    updateMessage("It's a draw!");
+                    gameOver = true;
+                    document.getElementById("restart").classList.remove("hidden");
+                    return;
+                }
 
-            switchPlayer();
+                switchPlayer();
+            }, 10);
         }
 
         function switchPlayer() {
             currentPlayer = currentPlayer === player1 ? player2 : player1;
-            updateMessage(`${currentPlayer}, you're up!`);
+            updateMessage(`${currentPlayer}, you're up`);
         }
 
         function updateMessage(msg) {
@@ -108,7 +110,7 @@
         document.getElementById("restart").addEventListener("click", () => {
             createBoard();
             currentPlayer = player1;
-            updateMessage(`${currentPlayer}, you're up!`);
+            updateMessage(`${currentPlayer}, you're up`);
             document.getElementById("restart").classList.add("hidden");
         });
     </script>
